@@ -12,3 +12,8 @@ console.log(fruits);
 const fruits2 = ["Apple", "Peach"];
 fruits.shift();
 console.log(fruits);
+
+//ARRAY.unshift() method
+const fruits3 = ["Apple", "Peach"];
+console.log(fruits3.unshift("Banana"));
+console.log(fruits3);
