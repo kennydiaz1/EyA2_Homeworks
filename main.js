@@ -17,3 +17,5 @@ console.log(fruits);
 const fruits3 = ["Apple", "Peach"];
 console.log(fruits3.unshift("Banana"));
 console.log(fruits3);
+
+//ARRAY.indexOf() method
