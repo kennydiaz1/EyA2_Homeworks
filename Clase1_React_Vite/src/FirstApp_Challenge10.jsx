@@ -15,7 +15,7 @@ function FirstApp_Challenge10() {
 return (
     <>
         <h1> Contador: { counter } </h1>
-        <button onClick={() => setCounter(counter + 1)}> +1 </button>
+        <button onClick={() => setCounter(counter + 1)}>Sumar +1 </button>
         <button onClick={handleSubstract}> Restar -1 </button>
         <button onClick={handleReset}> Restaurar </button>
     </>
