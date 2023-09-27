@@ -24,7 +24,7 @@ export const FirstApp_Challenge11 = () => {
                 categories.map(
                     (category, key) =>
                     {
-                     <li key={key}> {category} </li>
+                     return <li key={key}> {category} </li>
                     }
                 )
             }
