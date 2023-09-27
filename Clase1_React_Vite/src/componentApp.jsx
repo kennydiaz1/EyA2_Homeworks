@@ -1,5 +1,6 @@
 import { useState } from "react";
-import {AddCategory, GifGrid} from "./components";
+import {AddCategory} from "./components/AddCategory";
+import {GifGrid} from "./components/GifGrid";
 
 export const GifExpertApp = () => {
 
@@ -20,7 +21,7 @@ export const GifExpertApp = () => {
             categories.map(
                 (category, key) =>
                 {
-                 <GifGrid key={key} category={category} />
+                 return <GifGrid key={key} category={category} />
                 }
             )
         }
