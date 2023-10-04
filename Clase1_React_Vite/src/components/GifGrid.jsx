@@ -1,3 +1,4 @@
+import { getGifs } from "../helpers/getGifs";
 import { useState, useEffect } from "react";
 import { GifItem } from "./GifItem";
 
