@@ -1,39 +1,78 @@
 const express = require('express')
-const { ValidationResult } = require('express-validator')
+const { validationResult } = require('express-validator')
+const Usuario = require('../models/Usuario')
+const bcrypt = require('bcryptjs')
 
-const crearUsuario = (req, res = express.request) => {
+
+
+
+const crearUsuario = async (req, res = express.request) => {
     const { name, email, password } = req.body
-    const errors = ValidationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            ok: false,
-            errors: errors.mapped()
-        })
-    }
+    try {
+        let usuario = await Usuario.findOne({ email })
+        if (usuario) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El usuario ya existe'
+            })
+        }
 
-    req.status(200).json({
-        ok: true,
-        name, email, password
-    })
-}
+        usuario = new Usuario(req.body)
+        const salt = bcrypt.genSaltSync();
+        usuario.password = bcrypt.hashSync(password, salt)
+        await usuario.save()
 
-const loginUsuario = (req, res = express.request) => {
-    
-    res.json({
-        ok: true,
-        msg: 'login'
-    })
-}
-
-const revalidarToken = (req, res = express.request) => {       
-        res.json({
+        res.status(200).json({
             ok: true,
-            msg: 'renew'
+            usuario
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error'
+        })
+    }
+}
+
+const login = async (req, res = express.request) => {
+    const { email, password } = req.body
+    try {
+
+        let usuario = await Usuario.findOne({ email: email })
+        if (!usuario) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El usuario no existe'
+            })
+        }
+        const validPassword = bcrypt.compareSync(password, usuario.password)
+        if (!validPassword) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Password incorrecto'
+            })
+        }
+        res.status(200).json({
+            ok: true,
+            usuario
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            error
         })
     }
 
+}
+const renewToken = (req, res = express.request) => {
+    return res.json({
+        ok: true
+    })
+}
 module.exports = {
     crearUsuario,
-    loginUsuario,
-    revalidarToken
+    login,
+    renewToken
 }
